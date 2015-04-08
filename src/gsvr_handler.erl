@@ -4,6 +4,8 @@
 -export([handle/2]).
 -export([terminate/3]).
 
+-include("gsvr.hrl").
+
 
 init(_Transport, Req, []) ->
 	{ok, Req, undefined}.
@@ -11,7 +13,7 @@ init(_Transport, Req, []) ->
 
 handle(Req, State) ->
     {Method, Req} = cowboy_req:method(Req),
-    io:format("****Method: ~p~n", [Method]),
+    ?TRACE_VAR(Method),
     {ok, Req1} = handle_req(Method, Req),
 	{ok, Req1, State}.
 

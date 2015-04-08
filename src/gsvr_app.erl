@@ -10,6 +10,7 @@
 %% ===================================================================
 
 start(_StartType, _StartArgs) ->
+    lager:start(),
     application:start(crypto),
     application:start(ranch),
     application:start(cowlib),
