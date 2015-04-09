@@ -4,17 +4,15 @@
 
 %% Application callbacks
 -export([start/2, stop/1]).
+-include("gsvr.hrl").
+
 
 %% ===================================================================
 %% Application callbacks
 %% ===================================================================
 
 start(_StartType, _StartArgs) ->
-    lager:start(),
-    application:start(crypto),
-    application:start(ranch),
-    application:start(cowlib),
-    application:start(cowboy),
+    handle_ets(),
 	Dispatch = cowboy_router:compile([
 		{'_', [
 			{"/", gsvr_handler, []}
@@ -26,4 +24,14 @@ start(_StartType, _StartArgs) ->
     gsvr_sup:start_link().
 
 stop(_State) ->
+    ?TRACE_VAR(stop),
+    gsvr:save_data(),
+    erlang:halt(),
     ok.
+
+handle_ets() ->
+    case filelib:is_file(?ETS_FILE_NAME) of
+        true -> ets:file2tab(?ETS_FILE_NAME);
+        false -> ets:new(account_servers, [named_table, set, public])
+    end.
+

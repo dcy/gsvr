@@ -14,3 +14,5 @@
 -define(ALERT_MSG(Format, Args), lager:alert(Format, Args)).
 
 -define(TRACE_VAR(Arg), io:format("~n******~nModule: ~p, Line: ~p, ~nMy print's ~p is ~p~n******~n", [?MODULE, ?LINE, ??Arg, Arg])).
+
+-define(ETS_FILE_NAME, "account_servers.ets").

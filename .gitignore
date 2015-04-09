@@ -6,3 +6,4 @@ logs/
 log/
 tags
 .rebar/
+account_servers.ets
