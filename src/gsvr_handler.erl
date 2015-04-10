@@ -13,7 +13,8 @@ init(_Transport, Req, []) ->
 
 handle(Req, State) ->
     {Method, Req} = cowboy_req:method(Req),
-    ?TRACE_VAR(Method),
+    %?TRACE_VAR(Method),
+    ?DEBUG_MSG("***Method:~p", [Method]),
     {ok, Req1} = handle_req(Method, Req),
 	{ok, Req1, State}.
 
@@ -29,7 +30,8 @@ handle_req(_, Req) ->
 do_handle_get(undefined, Req) ->
 	cowboy_req:reply(400, [], <<"Missing account_id parameter.">>, Req);
 do_handle_get(AccountId, Req) ->
-    ?TRACE_VAR(AccountId),
+    %?TRACE_VAR(AccountId),
+    ?DEBUG_MSG("****AccountId:~p", [AccountId]),
     Servers = get_account_server_infos(AccountId),
 	cowboy_req:reply(200, [
 		{<<"content-type">>, <<"application/json; charset=utf-8">>}
@@ -37,9 +39,11 @@ do_handle_get(AccountId, Req) ->
 
 do_handle_post(true, Req) ->
     {ok, [{JsonBin, true}], Req2} = cowboy_req:body_qs(Req),
-    ?TRACE_VAR(JsonBin),
+    %?TRACE_VAR(JsonBin),
+    ?DEBUG_MSG("******JsonBin:~p", [JsonBin]),
     PostVals = jsx:decode(JsonBin, [return_maps]),
-    ?TRACE_VAR(PostVals),
+    %?TRACE_VAR(PostVals),
+    ?DEBUG_MSG("*****PostVals:~p", [PostVals]),
     #{<<"account_id">> := AccountId, <<"svr_id">> := SvrId} = PostVals,
     NewInfo = maps:put(<<"time">>, util:unixtime(), maps:remove(<<"account_id">>, PostVals)),
     Infos = get_account_server_infos(AccountId),
