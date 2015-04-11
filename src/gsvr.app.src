@@ -5,7 +5,9 @@
   {registered, []},
   {applications, [
                   kernel,
-                  stdlib
+                  stdlib,
+                  erlcron,
+                  cowboy
                  ]},
   {mod, { gsvr_app, []}},
   {env, []}

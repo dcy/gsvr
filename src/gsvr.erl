@@ -20,12 +20,13 @@ stop() ->
 
 start_applications() ->
     lager:start(),
-    application:start(erlcron),
-    application:start(crypto),
-    application:start(ranch),
-    application:start(cowlib),
-    application:start(cowboy),
-    application:start(gsvr),
+    %application:start(erlcron),
+    %application:start(crypto),
+    %application:start(ranch),
+    %application:start(cowlib),
+    %application:start(cowboy),
+    %application:start(gsvr),
+    application:ensure_all_started(gsvr),
     ok.
 
 save_data() ->
