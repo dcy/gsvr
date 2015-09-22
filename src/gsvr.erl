@@ -27,10 +27,12 @@ start_applications() ->
     %application:start(cowboy),
     %application:start(gsvr),
     application:ensure_all_started(gsvr),
+    application:ensure_all_started(hackney),
     ok.
 
 save_data() ->
     ?TRACE_VAR(save_data),
-    ets:tab2file(account_servers, ?ETS_FILE_NAME),
+    ets:tab2file(account_servers, "save_file.temp"),
+    file:copy("save_file.temp", ?ETS_FILE_NAME),
     ok.
 
